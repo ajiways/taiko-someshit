@@ -48,24 +48,7 @@ class Arrow {
 
 let hitObjectsList,
     hitObjectsListLength; // 1 - last с 1 а не с 0 
-let noteArr = [];
-// let note = {
-//     note: {
-//         posX:'',
-//         posY:'',
-//         timing:'',
-//         isRed: false,
-//         isBlue: false,
-//         isBig: false,
-//         isSmall: false
-//     },
-//     spinner: {
-//         posX:'',
-//         posY:'',
-//         timingStart:'',
-//         timingEnd: '',
-//     },
-// };
+let notesArr = [];
 
 
 function readOsuFile(){
@@ -80,12 +63,31 @@ function readOsuFile(){
         newTempArr.splice(0, index);
         let newTempArr2 = newTempArr.join('');
         let hitObjects = newTempArr2.split('\r\n');
-        // console.log(hitObjects[1]);
         hitObjectsList = hitObjects;
         hitObjectsListLength = hitObjectsList.length - 2;
-        console.log(hitObjectsList[2]);
+        console.log(hitObjectsList[1]);
         console.log(hitObjectsList[hitObjectsListLength]);
     };
+}
+
+class Note{
+    constructor(posX, posY, timing, isRed, isBlue, isSmall, isBig) {
+        this.posX = posX;
+        this.posY = posY;
+        this.timing = timing;
+        this.isRed = isRed;
+        this.isBlue = isBlue;
+        this.isSmall = isSmall;
+        this.isBig = isBig;
+    }
+}
+class Spinner{
+    constructor(posX, posY, timingStart, timingEnd) {
+        this.posX = posX;
+        this.posY = posY;
+        this.timigStart = timingStart;
+        this.timingEnd = timingEnd;
+    }
 }
 
 function createNote() {
@@ -106,47 +108,53 @@ function createNote() {
         timingEnd: '',
     };
     let counter = 0;
-    for(let i = 1; i < 2; i++) {
+    for(let i = 1; i <= hitObjectsListLength; i++) {
         let temp;
-        console.log(hitObjectsList);
         temp = hitObjectsList[i];
-        // console.log(temp);
         let noteTemp = temp.split('\r\n');
-        // console.log(noteTemp);
-        let noteArr = noteTemp[counter].split(',');
+        console.log(noteTemp);
+        console.log(counter);
+        let noteArr = noteTemp[0].split(',');
+        console.log(counter);
         counter++;
-        console.log(noteArr);
-        console.log(noteArr[0]);
-        console.log(noteArr[1]);
-        console.log(noteArr[2]);
-        console.log(noteArr[3]);
-        console.log(noteArr[5]);
         if(noteArr[5] == '0:0:0:0:') {
-            note.posX = noteArr[0];
-            note.posY = noteArr[1];
-            note.timing = noteArr[2];
+            let posX = noteArr[0],
+                posY = noteArr[1],
+                timing = noteArr[2],
+                isRed = false,
+                isSmall = false,
+                isBlue = false,
+                isBig = false;
             if (noteArr[4] == 0) {
-                note.isRed = true;
-                note.isSmall = true;
-            } else if (noteArr[4] == 4) {
-                note.isRed = true;
-                note.isBig = true;
-            } else if (noteArr[4] == 8) {
-                note.isBlue = true;
-                note.isSmall = true;
-            } else if (noteArr[4] == 12) {
-                note.isBlue = true;
-                note.isBig = true;
+                isRed = true;
+                isSmall = true;
             }
-            return note;
+            if (noteArr[4] == 4) {
+                isRed = true;
+                isBig = true;
+            }
+            if (noteArr[4] == 8) {
+                isBlue = true;
+                isSmall = true;
+            }
+            if (noteArr[4] == 12) {
+                isBlue = true;
+                isBig = true;
+            }
+            let note = new Note(posX, posY, timing, isRed, isBlue, isSmall, isBig);
+            notesArr.push(note);
+            console.log(notesArr);
         } else {
-            spinner.posX = noteArr[0];
-            spinner.posY = noteArr[1];
-            spinner.timingStart = noteArr[2];
-            spinner.timingEnd = noteArr[5];
-            return spinner;
+            let posX = noteArr[0],
+                posY = noteArr[1],
+                timingStart = noteArr[2],
+                timingEnd = noteArr[5];
+            let spinner = new Spinner(posX, posY, timingStart, timingEnd);
+            notesArr.push(spinner);
+            console.log(notesArr);
         }
     }
+    console.log(notesArr);
 }
 
 
