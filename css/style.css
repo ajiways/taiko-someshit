@@ -37,3 +37,16 @@ body, html {
     position: absolute;
     left: 8px;
 }
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}
+
+.file__input {
+    position: absolute;
+    border: 2px solid black;
+}

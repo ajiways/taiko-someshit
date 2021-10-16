@@ -4,10 +4,9 @@ export default class Arrow {
     constructor(parentScroll, keyName, scrollSpeed){
         this.parentScroll = parentScroll;
         this.keyName = keyName; // left down etc.
-        this.scrollSpeed = scrollSpeed;
-        const render = function(){
-            const temp = parentScroll.createElement('img');
-            temp.classList.add(Arrow);
+        this.render = function render(){
+            const temp = document.createElement('img');
+            temp.classList.add('Arrow');
             switch(keyName) {
                 case 'left':
                     temp.src = 'images/left.png';
@@ -25,6 +24,9 @@ export default class Arrow {
                     console.log('Неверно указано имя стрелочки');
                 }
             parentScroll.append(temp);
+        };
+        this.scrollDown = function scrollDown() {
+            
         };
     }
 }
