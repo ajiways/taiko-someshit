@@ -7,10 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
           scrollThree = document.querySelector('.three'),
           scrollFour = document.querySelector('.four');
 
-    // const newArrow = new Arrow(scrollOne, 'left', 10);
-    // const newArrow2 = new Arrow(scrollFour, 'right', 10);
-    // newArrow.render();
-    // newArrow2.render();
+    // const arrow = document.querySelector('.Arrow');
+    const newArrow = new Arrow(scrollOne, 'left', 4);
+    const newArrow2 = new Arrow(scrollFour, 'right', 500);
+    newArrow.render();
+    newArrow.scrollDown();
+    newArrow2.render();
+    // console.log(arrow.getBoundingClientRect().y);
+    // arrow.style.top = '10px';
 
-    
+
 });
