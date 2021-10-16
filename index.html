@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <input type="file" name="file" class="file__input">
+    <input type="file" name="file" onchange="readOsuFile()" class="file__input">
 
     <div class="playfield">
         <!-- <div class="scroll">
@@ -39,5 +39,6 @@
 
 
     <script type="module" src="js/main.js"></script>
+    <script src="js/_getosuJs.js"></script>
 </body>
 </html>
