@@ -1,9 +1,13 @@
 "use strict";
 
-const input = document.querySelector('.file__input');
+const input = document.querySelector('.file__input'),
+      scrollOne = document.querySelector('.one'),
+      scrollTwo = document.querySelector('.two'),
+      scrollThree = document.querySelector('.three'),
+      scrollFour = document.querySelector('.four');
 
 class Arrow {
-    constructor(parentScroll, keyName, scrollSpeed){
+    constructor(parentScroll, keyName, scrollSpeed) {
         this.parentScroll = parentScroll;
         this.keyName = keyName; // left down etc.
         const temp = document.createElement('img');
@@ -27,13 +31,13 @@ class Arrow {
                 }
             parentScroll.append(temp);
         };
-        this.scrollDown = function scrollDown(){
+        this.scrollDown = function scrollDown() {
             let coordsY = temp.getBoundingClientRect().y;
             let pos = 0;
             const scroll = setInterval(move, scrollSpeed);
             function move() {
                 if (coordsY <= 775){
-                    pos = pos + 6;
+                    pos = pos + 8;
                     temp.style.top = pos + 'px';
                     coordsY = temp.getBoundingClientRect().y;
                 }
@@ -46,12 +50,25 @@ class Arrow {
     }
 }
 
+// const arrow = new Arrow(scrollOne, 'left', 4);
+// arrow.render();
+// arrow.scrollDown();
+// const arrow2 = new Arrow(scrollTwo, 'up', 4);
+// arrow2.render();
+// arrow2.scrollDown();
+// const arrow3 = new Arrow(scrollThree, 'down', 4);
+// arrow3.render();
+// arrow3.scrollDown();
+// const arrow4 = new Arrow(scrollFour, 'right', 4);
+// arrow4.render();
+// arrow4.scrollDown();
+
 let hitObjectsList,
     hitObjectsListLength; // 1 - last с 1 а не с 0 
 let notesArr = [];
 
 
-function readOsuFile(){
+function readOsuFile() {
     let file = input.files[0];
     let reader = new FileReader();
     reader.readAsBinaryString(file);
@@ -70,7 +87,7 @@ function readOsuFile(){
     };
 }
 
-class Note{
+class Note {
     constructor(posX, posY, timing, isRed, isBlue, isSmall, isBig) {
         this.posX = posX;
         this.posY = posY;
@@ -81,7 +98,7 @@ class Note{
         this.isBig = isBig;
     }
 }
-class Spinner{
+class Spinner {
     constructor(posX, posY, timingStart, timingEnd) {
         this.posX = posX;
         this.posY = posY;
@@ -112,12 +129,12 @@ function createNote() {
         let temp;
         temp = hitObjectsList[i];
         let noteTemp = temp.split('\r\n');
-        console.log(noteTemp);
-        console.log(counter);
         let noteArr = noteTemp[0].split(',');
-        console.log(counter);
+        console.log(noteArr);
         counter++;
-        if(noteArr[5] == '0:0:0:0:') {
+        if(noteArr[5].length > 15) {
+            continue;
+        } else if(noteArr[5] == '0:0:0:0:') {
             let posX = noteArr[0],
                 posY = noteArr[1],
                 timing = noteArr[2],
@@ -143,7 +160,6 @@ function createNote() {
             }
             let note = new Note(posX, posY, timing, isRed, isBlue, isSmall, isBig);
             notesArr.push(note);
-            console.log(notesArr);
         } else {
             let posX = noteArr[0],
                 posY = noteArr[1],
@@ -151,7 +167,6 @@ function createNote() {
                 timingEnd = noteArr[5];
             let spinner = new Spinner(posX, posY, timingStart, timingEnd);
             notesArr.push(spinner);
-            console.log(notesArr);
         }
     }
     console.log(notesArr);
