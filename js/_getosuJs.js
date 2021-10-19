@@ -69,8 +69,6 @@ function readOsuFile() {
         let hitObjects = newTempArr2.split('\r\n');
         hitObjectsList = hitObjects;
         hitObjectsListLength = hitObjectsList.length - 2;
-        console.log(hitObjectsList[1]);
-        console.log(hitObjectsList[hitObjectsListLength]);
         createNote();
         createTimeLine();
     };
@@ -107,9 +105,7 @@ function createNote() {
         let noteArr = noteTemp[0].split(',');
         counter++;
         if(noteArr[5].search('B') != -1|| noteArr[5].search('L') != -1) {
-            console.log(noteArr[5]);
             slidersCount++;
-            console.log(slidersCount);
         } else if(noteArr[5] == '0:0:0:0:') {
             let posX = noteArr[0],
                 posY = noteArr[1],
@@ -147,7 +143,6 @@ function createNote() {
                 notesArr.push(spinner);
             }
     }
-    console.log(notesArr);
 }
 
 function convert(milliseconds) {
@@ -171,60 +166,57 @@ function convert(milliseconds) {
         }
         return result;
 }
-
+function oneSmallRed() {
+    let smallRed = new Arrow(scrollTwo, 'up', 4);
+    smallRed.render();
+    smallRed.scrollDown();
+}
+function twoSmallReds() {
+    let smallRedD = new Arrow(scrollThree, 'down', 4);
+    smallRedD.render();
+    smallRedD.scrollDown();
+}
+function oneSmallBlue() {
+    let smallBlueD = new Arrow(scrollOne, 'left', 4);
+    smallBlueD.render();
+    smallBlueD.scrollDown();
+}
+function twoSmallBlues() {
+    let smallBlue = new Arrow(scrollFour, 'right', 4);
+    smallBlue.render();
+    smallBlue.scrollDown();
+}
+function bigRed() {
+    let bigRed = new Arrow(scrollTwo, 'up', 4);
+    bigRed.render();
+    bigRed.scrollDown();
+    let bigRedD = new Arrow(scrollThree, 'down', 4);
+    bigRedD.render();
+    bigRedD.scrollDown();
+}
+function bigBlue() {
+    let bigBlue = new Arrow(scrollOne, 'left', 4);
+    bigBlue.render();
+    bigBlue.scrollDown();
+    let bigBlueD = new Arrow(scrollFour, 'right', 4);
+    bigBlueD.render();
+    bigBlueD.scrollDown();
+}
 class SpawnNote {
     constructor(noteName, timingNote, SR, SB) {
         this.noteName = noteName;
         this.timingNote = timingNote;
         this.SR = SR;
         this.SM = SB;
-        function oneSmallRed() {
-            let smallRed = new Arrow(scrollTwo, 'up', 4);
-            smallRed.render();
-            smallRed.scrollDown();
-        }
-        function twoSmallReds() {
-            let smallRedD = new Arrow(scrollThree, 'down', 4);
-            smallRedD.render();
-            smallRedD.scrollDown();
-        }
-        function oneSmallBlue() {
-            let smallBlueD = new Arrow(scrollOne, 'left', 4);
-            smallBlueD.render();
-            smallBlueD.scrollDown();
-        }
-        function twoSmallBlues() {
-            let smallBlue = new Arrow(scrollFour, 'right', 4);
-            smallBlue.render();
-            smallBlue.scrollDown();
-        }
-        function bigRed() {
-            let bigRed = new Arrow(scrollTwo, 'up', 4);
-            bigRed.render();
-            bigRed.scrollDown();
-            let bigRedD = new Arrow(scrollThree, 'down', 4);
-            bigRedD.render();
-            bigRedD.scrollDown();
-        }
-        function bigBlue() {
-            let bigBlue = new Arrow(scrollOne, 'left', 4);
-            bigBlue.render();
-            bigBlue.scrollDown();
-            let bigBlueD = new Arrow(scrollFour, 'right', 4);
-            bigBlueD.render();
-            bigBlueD.scrollDown();
-        }
         this.run = setTimeout(function run(){
             switch (noteName){
                 case 'sr':
                     switch (SR){
                         case 1:
                             oneSmallRed();
-                            console.log('done');
                             break;
                         case 2:
                             twoSmallReds();
-                            console.log('done 2');
                             break;
                     }
                     break;
@@ -245,15 +237,10 @@ class SpawnNote {
                     bigBlue();
                     break;
             }
-                
-
-            console.log(timingNote);
         }, timingNote);
     }
 }
 
-// let some = convert(61999);
-// console.log(some);
 let timing = [];
 let timeLine = [];
 
@@ -275,7 +262,6 @@ function createTimeLine() {
         for(let i = 15; i <= tempTiming; i++){
             timing.push(i);
         }
-        console.log(timing);
     }
     pushTiming();
 
@@ -322,10 +308,8 @@ function createTimeLine() {
                 console.log("Ошибка");
             }
         }
-        console.log(timeLine);
     }
     pushTimeLine();
-    console.log(startTiming, endTiming);
 }
 
 function play() {
@@ -335,12 +319,10 @@ function play() {
     let counterSB = 0;
     let note;
     let timingNote;
-    console.log(notesArr);
     for(let i = 15; i <= timing[timing.length - 1]; i++){
         if (timeLine[noteCounter].start == timing[timingCounter2]){
             let sliderStart = timeLine[noteCounter].start,
                 sliderEnd = timeLine[noteCounter].end;
-                console.log(sliderStart, sliderEnd);
                 noteCounter++;
         } else if (timeLine[noteCounter].timing == timing[timingCounter2]) {
             if(timeLine[noteCounter].isRed && timeLine[noteCounter].isSmall){
@@ -380,4 +362,21 @@ function play() {
         timingCounter2++;
         counterForTestFunc++;
     }
+}
+const brn = document.querySelector('button');
+brn.addEventListener('click', ()=>{
+    counter();
+    setTimeout(play, 4600);
+
+});
+function counter() {
+    let counterNum = 2;
+    console.log('Нажми через : 3');
+    let id = setInterval(()=>{
+        if(counterNum == 0){
+            clearInterval(id);
+        }
+        console.log(`Нажми через : ${counterNum}`);
+        counterNum--;
+    }, 1000);
 }
