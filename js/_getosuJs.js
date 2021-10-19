@@ -45,7 +45,7 @@ class Arrow {
                     clearInterval(scroll);
                     temp.remove();
                 }
-            }
+            }   
         };
     }
 }
@@ -173,32 +173,80 @@ function convert(milliseconds) {
 }
 
 class SpawnNote {
-    constructor(noteName, timingNote) {
+    constructor(noteName, timingNote, SR, SB) {
         this.noteName = noteName;
         this.timingNote = timingNote;
+        this.SR = SR;
+        this.SM = SB;
+        function oneSmallRed() {
+            let smallRed = new Arrow(scrollTwo, 'up', 4);
+            smallRed.render();
+            smallRed.scrollDown();
+        }
+        function twoSmallReds() {
+            let smallRedD = new Arrow(scrollThree, 'down', 4);
+            smallRedD.render();
+            smallRedD.scrollDown();
+        }
+        function oneSmallBlue() {
+            let smallBlueD = new Arrow(scrollOne, 'left', 4);
+            smallBlueD.render();
+            smallBlueD.scrollDown();
+        }
+        function twoSmallBlues() {
+            let smallBlue = new Arrow(scrollFour, 'right', 4);
+            smallBlue.render();
+            smallBlue.scrollDown();
+        }
+        function bigRed() {
+            let bigRed = new Arrow(scrollTwo, 'up', 4);
+            bigRed.render();
+            bigRed.scrollDown();
+            let bigRedD = new Arrow(scrollThree, 'down', 4);
+            bigRedD.render();
+            bigRedD.scrollDown();
+        }
+        function bigBlue() {
+            let bigBlue = new Arrow(scrollOne, 'left', 4);
+            bigBlue.render();
+            bigBlue.scrollDown();
+            let bigBlueD = new Arrow(scrollFour, 'right', 4);
+            bigBlueD.render();
+            bigBlueD.scrollDown();
+        }
         this.run = setTimeout(function run(){
             switch (noteName){
                 case 'sr':
-                    let arrow = new Arrow(scrollTwo, 'up', 4);
-                    arrow.render();
-                    arrow.scrollDown();
+                    switch (SR){
+                        case 1:
+                            oneSmallRed();
+                            console.log('done');
+                            break;
+                        case 2:
+                            twoSmallReds();
+                            console.log('done 2');
+                            break;
+                    }
                     break;
                 case 'sb':
-                    let arrow2 = new Arrow(scrollOne, 'left', 4);
-                    arrow2.render();
-                    arrow2.scrollDown();
+                    switch (SB){
+                        case 1:
+                            oneSmallBlue();
+                            break;
+                        case 2:
+                            twoSmallBlues();
+                            break;
+                    }
                     break;
                 case 'br':
-                    let arrow3 = new Arrow(scrollThree, 'down', 4);
-                    arrow3.render();
-                    arrow3.scrollDown();
+                    bigRed();
                     break;
                 case 'bb':
-                    let arrow4 = new Arrow(scrollFour, 'right', 4);
-                    arrow4.render();
-                    arrow4.scrollDown();
+                    bigBlue();
                     break;
             }
+                
+
             console.log(timingNote);
         }, timingNote);
     }
@@ -283,10 +331,8 @@ function createTimeLine() {
 function play() {
     let noteCounter = 0;
     let timingCounter2 = 0;
-    // let counterSR = 0;
-    // let counterSB = 0;
-    // let counterBR = 0;
-    // let counterBB = 0;
+    let counterSR = 0;
+    let counterSB = 0;
     let note;
     let timingNote;
     console.log(notesArr);
@@ -296,57 +342,42 @@ function play() {
                 sliderEnd = timeLine[noteCounter].end;
                 console.log(sliderStart, sliderEnd);
                 noteCounter++;
-                console.log('Spinner spawn');
         } else if (timeLine[noteCounter].timing == timing[timingCounter2]) {
             if(timeLine[noteCounter].isRed && timeLine[noteCounter].isSmall){
-                // counterBB = 0;
-                // counterSB = 0;
-                // counterBR = 0;
-                // counterSR++;
+                counterSB = 0;
+                counterSR++;
                 timingNote = timeLine[noteCounter].timing;
-                console.log('Small RED');
                 note = 'sr';
-                let createArrow = new SpawnNote(note, timingNote);
-                // spawnNote();
+                let createArrow = new SpawnNote(note, timingNote, counterSR, counterSB);
+                if(counterSR == 2){
+                    counterSR = 0;
+                }
             } else
             if (timeLine[noteCounter].isblue && timeLine[noteCounter].isSmall) {
-                // counterSR = 0;
-                // counterBB = 0;
-                // counterBR = 0;
-                // counterSB++;
+                counterSR = 0;
+                counterSB++;
+
                 timingNote = timeLine[noteCounter].timing;
-                console.log('Small BLUE');
                 note = 'sb';
-                let createArrow = new SpawnNote(note, timingNote);
-                // spawnNote();
+                let createArrow = new SpawnNote(note, timingNote,  counterSR, counterSB);
+                if(counterSB == 2){
+                    counterSB = 0;
+                }
             } else
             if (timeLine[noteCounter].isRed && timeLine[noteCounter].isBig) {
-                // counterSR = 0;
-                // counterSB = 0;
-                // counterBB = 0;
-                // counterBR++;
                 timingNote = timeLine[noteCounter].timing;
-                console.log('BIG RED');
                 note = 'br';
                 let createArrow = new SpawnNote(note, timingNote);
-                // spawnNote();
              
             } else
             if (timeLine[noteCounter].isBlue && timeLine[noteCounter].isBig) {
-                // counterSR = 0;
-                // counterSB = 0;
-                // counterBR = 0;
-                // counterBB++;
                 timingNote = timeLine[noteCounter].timing;
-                console.log('BLUE BIG');
                 note = 'bb';
                 let createArrow = new SpawnNote(note, timingNote);
-                // spawnNote();
             }
             noteCounter++;
         }
         timingCounter2++;
         counterForTestFunc++;
-        // console.log(timingNote);
     }
 }
