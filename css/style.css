@@ -28,6 +28,7 @@ body, html {
 
 .scroll__fall {
     position: absolute;
+    width: 570px;
     bottom: 0;
     margin-bottom: 40px;
     z-index: 1;
