@@ -5,7 +5,8 @@ const input = document.querySelector('.file__input'),
       scrollTwo = document.querySelector('.two'),
       scrollThree = document.querySelector('.three'),
       scrollFour = document.querySelector('.four');
-      let counterForTestFunc = 15;
+let counterForTestFunc = 15;
+
 class Arrow {
     constructor(parentScroll, keyName, scrollSpeed) {
         this.parentScroll = parentScroll;
@@ -37,7 +38,7 @@ class Arrow {
             const scroll = setInterval(move, scrollSpeed);
             function move() {
                 if (coordsY <= 775){
-                    pos = pos + 8;
+                    pos = pos + 7.5;
                     temp.style.top = pos + 'px';
                     coordsY = temp.getBoundingClientRect().y;
                 }
@@ -177,12 +178,12 @@ function twoSmallReds() {
     smallRedD.scrollDown();
 }
 function oneSmallBlue() {
-    let smallBlueD = new Arrow(scrollOne, 'left', 4);
+    let smallBlueD = new Arrow(scrollFour, 'right', 4);
     smallBlueD.render();
     smallBlueD.scrollDown();
 }
 function twoSmallBlues() {
-    let smallBlue = new Arrow(scrollFour, 'right', 4);
+    let smallBlue = new Arrow(scrollOne, 'left', 4);
     smallBlue.render();
     smallBlue.scrollDown();
 }
@@ -303,7 +304,6 @@ function createTimeLine() {
                     };
                     timeLine.push(bigBlueNote);
                 }
-                // timeLine.push(notesArr[i].timing);
             } else {
                 console.log("Ошибка");
             }
@@ -319,7 +319,12 @@ function play() {
     let counterSB = 0;
     let note;
     let timingNote;
+    let clogCounter = 0;
     for(let i = 15; i <= timing[timing.length - 1]; i++){
+        clogCounter++;
+        if (clogCounter == 1){
+            console.log('STARTED');
+        }
         if (timeLine[noteCounter].start == timing[timingCounter2]){
             let sliderStart = timeLine[noteCounter].start,
                 sliderEnd = timeLine[noteCounter].end;
